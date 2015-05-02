@@ -2,7 +2,7 @@
 
 This is a set of Malbolge code generators (for a given text) and a web-based GUI for the interactive interpreter and these generators, made using the [malbolge-vm](http://github.com/zb3/malbolge-vm) library.
 
-You can access the GUI [here](http://zb3.github.io/)
+You can access the GUI [here](http://zb3.github.io/malbolge-tools/)
 
 It also contains examples of code such as:
 * crackme
