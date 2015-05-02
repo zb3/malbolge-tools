@@ -8,9 +8,9 @@
 
 <body>
 	<h1>Malbolge Tools</h1>
-	<div id="switcher"><span id="switch-interpreter">Interpreter</span><span id="switch-generator" class="on">Generator</span></div>
+	<div id="switcher"><span id="switch-interpreter" class="on">Interpreter</span><span id="switch-generator">Generator</span></div>
 	<br>
-	<div id="interpreter" style="display: none">
+	<div id="interpreter">
 		<button id="load-program-file">Load program from file</button> <span id="interpreter-samples" style="display: none;">Choose example: <select id="interpreter-sample-select"></select><button id="interpreter-sample-load">Load</button></span>
 		<br>
 		<br>
@@ -23,7 +23,7 @@
 		<textarea spellcheck="false" id="exec-area" readonly=true></textarea>
 		<span id="interpreter-status-bar">&nbsp;</span>
 	</div>
-	<div id="generator">
+	<div id="generator" style="display: none">
 		Generator type:
 		<select id="generator-type-select">
 			<option>Linear generator (fastest)</option>
