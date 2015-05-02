@@ -1,0 +1,470 @@
+.CODE
+// loop-resistant commands MOVD, IN, OUT
+HLT:
+	Hlt
+
+MOVD:
+	MovD/Nop
+	Jmp
+
+ROT:
+	Rot/Nop
+	Jmp
+
+NOP:
+	Jmp
+
+OPR:
+	Opr/Nop
+	Jmp
+
+IN:
+	In/Nop
+	Jmp
+
+OUT:
+	Out/Nop
+	Jmp
+
+FLAG_resetvphase1:
+	Nop/MovD
+	Jmp
+
+FLAG_resetvphase2:
+	Nop/MovD
+	Jmp
+
+FLAG_readvphase1:
+	Nop/MovD
+	Jmp
+
+
+FLAG_storev:
+	Nop/MovD
+	Jmp
+
+FLAG_crazyv:
+	Nop/MovD
+	Jmp
+
+FLAG_rotv:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_input:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_020:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_0:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_1:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_2:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_3:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_4:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_5:
+	Nop/MovD
+	Jmp
+
+FLAG_crazy_c2_6:
+	Nop/MovD
+	Jmp
+
+FLAG_firstchar:
+	Nop/MovD
+	Jmp
+
+FLAG_firstchar2:
+	Nop/MovD
+	Jmp
+
+COUNT2:
+	Nop/MovD
+	Jmp
+
+COUNT5:
+	Nop/Nop/Nop/Nop/MovD
+	Jmp
+
+.OFFSET C21
+LABEL:
+	RNop
+	RNop
+	Jmp
+
+
+.DATA {
+///////////////////////constants - GPC's
+
+
+//////////////////////end constants
+
+//////////////////////Special check variables v1 and v2. not gpv's!
+
+///check helper variable - v1
+reset_check_variables:
+	R_FLAG_resetvphase1
+	ROT 0t1111111111 R_ROT
+	U_OPR tv1
+resettv1phase2:
+	U_OPR tv1
+store_v1:
+	R_MOVD
+	R_FLAG_crazyv
+	U_OPR tv1
+tv1:
+	0t1111111111
+	R_OPR
+	FLAG_crazyv after_oprtv1 R_FLAG_crazyv
+	FLAG_resetvphase1 resettv1phase2 R_FLAG_resetvphase1
+	MOVD resetv1phase1
+resetv1phase1:
+	R_MOVD
+	R_FLAG_resetvphase1
+	U_OPR v1
+resetv1phase2:
+	R_FLAG_resetvphase2
+	U_OPR v1
+after_oprtv1:
+	U_OPR v1
+rot_v1:
+	R_FLAG_rotv
+	U_ROT v1
+v1:	
+	0t1111111111
+	FLAG_rotv after_v1_rot R_FLAG_rotv
+	R_OPR
+	FLAG_resetvphase1 resetv1phase2 R_FLAG_resetvphase1
+	R_MOVD
+	FLAG_resetvphase2 reset_v2 R_FLAG_resetvphase2
+	MOVD after_v1_store
+
+reset_v2:
+	R_FLAG_resetvphase1
+	U_OPR tv2
+resettv2phase2:
+	U_OPR tv2
+store_v2:
+	R_FLAG_storev
+	R_FLAG_crazyv
+	U_OPR tv2
+tv2:
+	0t1111111111
+	R_OPR
+	FLAG_crazyv after_oprtv2 R_FLAG_crazyv
+	FLAG_resetvphase1 resettv2phase2 R_FLAG_resetvphase1
+	MOVD resetv2phase1
+resetv2phase1:
+	R_MOVD
+	R_FLAG_resetvphase1
+	U_OPR v2
+resetv2phase2:
+	R_FLAG_resetvphase2
+	U_OPR v2
+crazy_v2:
+	U_OPR v2
+after_oprtv2:
+	U_OPR v2
+v2:	
+	0t1111111111
+	U_NOP not_from_return
+	U_NOP was_c2
+	U_NOP was_not_c2
+not_from_return:
+	R_OPR
+	FLAG_resetvphase1 resetv2phase2 R_FLAG_resetvphase1
+	FLAG_resetvphase2 after_reset_check_variables R_FLAG_resetvphase2
+	R_MOVD
+	FLAG_storev after_v2_store R_FLAG_storev
+	MOVD after_v2_crazy
+	
+
+///End Special check variables
+
+
+///GPV - sep
+reset_sep:
+	R_FLAG_resetvphase1
+	ROT 0t1111111111 R_ROT
+	U_OPR tsep
+resettsepphase2:
+	U_OPR tsep
+store_sep:
+	R_FLAG_storev
+	R_FLAG_crazyv
+	U_OPR tsep
+tsep:
+	0t1111111111
+	R_OPR
+	FLAG_crazyv after_oprtsep R_FLAG_crazyv
+	FLAG_resetvphase1 resettsepphase2 R_FLAG_resetvphase1
+	MOVD resetsepphase1
+resetsepphase1:
+	R_MOVD
+	R_FLAG_resetvphase1
+	ROT 0t1111111111 R_ROT
+	U_OPR sep
+resetsepphase2:
+	R_FLAG_resetvphase2
+	U_OPR sep
+read_sep:
+	R_FLAG_readvphase1
+	ROT 0t2222222222 R_ROT
+	U_OPR sep
+readsepphase2:
+	ROT 0t2222222222 R_ROT
+	U_OPR sep
+after_oprtsep:
+	U_OPR sep
+sep:	
+	0t1111111111
+	R_OPR
+	FLAG_readvphase1 readsepphase2 R_FLAG_readvphase1
+	FLAG_resetvphase1 resetsepphase2 R_FLAG_resetvphase1
+	R_MOVD
+	FLAG_resetvphase2 after_sep_reset R_FLAG_resetvphase2
+	FLAG_storev after_sep_store R_FLAG_storev
+	MOVD after_sep_read
+///end gpv
+
+///GPV - tmp
+reset_tmp:
+	R_FLAG_resetvphase1
+	ROT 0t1111111111 R_ROT
+	U_OPR ttmp
+resetttmpphase2:
+	U_OPR ttmp
+store_tmp:
+	R_FLAG_storev
+	R_FLAG_crazyv
+	U_OPR ttmp
+ttmp:
+	0t1111111111
+	R_OPR
+	FLAG_crazyv after_oprttmp R_FLAG_crazyv
+	FLAG_resetvphase1 resetttmpphase2 R_FLAG_resetvphase1
+	MOVD resettmpphase1
+resettmpphase1:
+	R_MOVD
+	R_FLAG_resetvphase1
+	ROT 0t1111111111 R_ROT
+	U_OPR tmp
+resettmpphase2:
+	R_FLAG_resetvphase2
+	U_OPR tmp
+read_tmp:
+	R_FLAG_readvphase1
+	ROT 0t2222222222 R_ROT
+	U_OPR tmp
+readtmpphase2:
+	ROT 0t2222222222 R_ROT
+	U_OPR tmp
+after_oprttmp:
+	U_OPR tmp
+tmp:	
+	0t1111111111
+	R_OPR
+	FLAG_readvphase1 readtmpphase2 R_FLAG_readvphase1
+	FLAG_resetvphase1 resettmpphase2 R_FLAG_resetvphase1
+	R_MOVD
+	FLAG_resetvphase2 after_tmp_reset R_FLAG_resetvphase2
+	FLAG_storev after_tmp_store R_FLAG_storev
+	MOVD after_tmp_read
+///end gpv
+
+
+
+///
+/// begin procedure check for c2
+/// use v1 and v2 are to be checked
+///
+do_check_c2:
+	R_MOVD
+	ROT C1 R_ROT
+
+	R_FLAG_crazy_c2_0
+	MOVD crazy_v2
+after_crazy_c2_0:
+	ROT C2 R_ROT
+
+	R_FLAG_crazy_c2_1
+	MOVD crazy_v2
+after_crazy_c2_1:
+	MOVD rot_v1
+after_v1_rot:
+	R_ROT R_MOVD
+	R_FLAG_crazy_c2_2
+	MOVD crazy_v2
+after_crazy_c2_2:
+	ROT C1 R_ROT
+
+	R_FLAG_crazy_c2_3
+	MOVD crazy_v2
+after_crazy_c2_3:
+	COUNT5 c2_count_step1
+	MOVD do_check_c2
+c2_count_step1:
+	COUNT2 c2_executed
+	MOVD do_check_c2
+c2_executed:
+
+	//load constant directly
+	ROT C0 R_ROT
+	OPR C21 R_OPR
+
+	R_FLAG_crazy_c2_4
+	MOVD crazy_v2
+after_crazy_c2_4:
+	ROT C0 R_ROT
+	R_FLAG_crazy_c2_5
+	MOVD crazy_v2
+after_crazy_c2_5:
+	ROT C0 R_ROT
+	OPR C21 R_OPR
+	R_FLAG_crazy_c2_6
+	MOVD crazy_v2
+after_crazy_c2_6:
+	ROT C1 R_ROT
+	OPR 2 R_OPR
+	MOVD crazy_v2
+
+
+///
+/// end procedure check for c2
+///
+
+
+// place event listeners here - like after_v1_read with flags
+//
+after_v2_crazy:
+	R_MOVD
+	FLAG_crazy_input after_crazy_input R_FLAG_crazy_input
+	FLAG_crazy_020 store_v1 R_FLAG_crazy_020
+
+	FLAG_crazy_c2_0 after_crazy_c2_0 R_FLAG_crazy_c2_0
+	FLAG_crazy_c2_1 after_crazy_c2_1 R_FLAG_crazy_c2_1
+	FLAG_crazy_c2_2 after_crazy_c2_2 R_FLAG_crazy_c2_2
+	FLAG_crazy_c2_3 after_crazy_c2_3 R_FLAG_crazy_c2_3
+	FLAG_crazy_c2_4 after_crazy_c2_4 R_FLAG_crazy_c2_4
+	FLAG_crazy_c2_5 after_crazy_c2_5 R_FLAG_crazy_c2_5
+	FLAG_crazy_c2_6 after_crazy_c2_6 R_FLAG_crazy_c2_6
+	MOVD v2
+
+
+ENTRY:
+	ROT 0t100020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110110 R_ROT
+	OUT ?- R_OUT
+	ROT 0t101210 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t101210 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110220 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102000 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t101210 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t20110 R_ROT
+	OUT ?- R_OUT
+	ROT 0t1010 R_ROT
+	OUT ?- R_OUT
+	MOVD reset_sep
+after_sep_reset:
+	IN ?- R_IN
+	MOVD store_sep
+after_sep_store:
+ROT 0t100100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t111100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110220 R_ROT
+	OUT ?- R_OUT
+	ROT 0t20110 R_ROT
+	OUT ?- R_OUT
+	ROT 0t1010 R_ROT
+	OUT ?- R_OUT
+	R_FLAG_firstchar
+	R_FLAG_firstchar2
+	MOVD text_loop
+text_loop:
+	R_MOVD
+	MOVD reset_check_variables
+after_reset_check_variables:
+	ROT 0t0 R_ROT
+	OPR 0t1111111212 R_OPR
+	MOVD store_v2
+after_v2_store:
+	MOVD reset_tmp
+after_tmp_reset:
+	IN ?- R_IN
+	MOVD store_tmp
+after_tmp_store:
+	R_FLAG_crazy_input
+	MOVD crazy_v2
+after_crazy_input:
+	ROT C1 R_ROT
+	OPR 0t2222222020 R_OPR
+	R_FLAG_crazy_020
+	MOVD crazy_v2
+after_v1_store:
+	R_MOVD
+	MOVD do_check_c2
+was_not_c2:
+	R_MOVD
+	FLAG_firstchar after_enter_check R_FLAG_firstchar
+after_enter_check:
+	FLAG_firstchar2 read_tmp_2 R_FLAG_firstchar2
+	MOVD read_sep
+after_sep_read:
+	R_MOVD
+	OUT ?- R_OUT //debug
+read_tmp_2:
+	MOVD read_tmp
+after_tmp_read:
+	R_MOVD
+	OUT ?- R_OUT
+char_was_not_enter:
+	MOVD text_loop
+was_c2:
+	R_MOVD
+	FLAG_firstchar text_loop R_FLAG_firstchar
+	ROT 0t1010 R_ROT
+	OUT ?- R_OUT
+	HLT
+
+}

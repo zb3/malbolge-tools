@@ -1,0 +1,14 @@
+{
+  "name": "malbolge-tools",
+  "version": "1.0.0",
+  "dependencies": {
+    "malbolge-vm": "latest"
+  },
+  "devDependencies": {
+    "browserify": "latest",
+    "fs-extra": "0.18.0"
+  },
+  "scripts": {
+    "build": "node build"
+  }
+}

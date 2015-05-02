@@ -1,0 +1,135 @@
+.CODE
+// loop-resistant commands MOVD, IN, OUT
+HLT:
+	Hlt
+
+MOVD:
+	MovD/Nop
+	Jmp
+
+ROT:
+	Rot/Nop
+	Jmp
+
+OPR:
+	Opr/Nop
+	Jmp
+
+IN:
+	In/Nop
+	Jmp
+
+
+OUT:
+	Out/Nop
+	Jmp
+
+FLAGZ:
+	MovD/Nop
+	Jmp
+
+FLAGB:
+	MovD/Nop
+	Jmp
+
+FLAG3:
+	MovD/Nop
+	Jmp
+
+
+.DATA {
+// The program logic follows here. Repeat IN/OUT in an infinite loop.
+ENTRY:
+	ROT 0t22220 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110210 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110210 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110220 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110010 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110100 R_ROT
+	OUT ?- R_OUT
+	ROT 0t110200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t102020 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t111120 R_ROT
+	OUT ?- R_OUT
+	ROT 0t101220 R_ROT
+	OUT ?- R_OUT
+	ROT 0t12200 R_ROT
+	OUT ?- R_OUT
+	ROT 0t10200 R_ROT
+	OUT ?- R_OUT
+	IN ?- R_IN
+
+	MOVD loop
+loop:
+	// restore MOVD-command
+	R_MOVD
+
+// program starts here
+GO:
+	ROT C2 R_ROT
+	OPR 122 R_OPR
+
+	FLAGZ out_b
+
+	OUT ?-
+	R_OUT
+
+	out_b:
+	ROT C2 R_ROT
+	OPR 98 R_OPR
+
+	FLAGB out_3
+
+	OUT ?-
+	R_OUT
+
+	out_3:
+	ROT C2 R_ROT
+	OPR 51 R_OPR
+
+	FLAG3 no_output
+
+	OUT ?-
+	R_OUT
+
+	IN ?-
+	R_IN
+
+
+	no_output:
+	// infinite loop
+	MOVD loop
+}

@@ -1,0 +1,33 @@
+{
+  "samples": [
+    {
+       "name": "Hello World EU version",
+       "filename": "helloworld-eu.mb"
+    },
+    {
+       "name": "Enter for zb3!",
+       "filename": "wat.mb"
+    },
+    {
+       "name": "Simple cat",
+       "normalized": true,
+       "filename": "cat.nmb"
+    },
+    {
+       "name": "Cat which halts on EOF",
+       "filename": "cat.mb"
+    },
+    {
+       "name": "Crackme by zb3",
+       "filename": "crackme.mb"
+    },
+    {
+       "name": "Separator by zb3",
+       "filename": "sep.mb"
+    },
+    {
+       "name": "Encrypted message (key is zb3)",
+       "filename": "encrypted.mb"
+    }
+  ]
+}
