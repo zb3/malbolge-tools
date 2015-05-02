@@ -1,0 +1,173 @@
+body {
+	font-family: Arial; /* obligatory */
+}
+h1, #switcher {
+	display: block;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+}
+#switcher span {
+	display: inline-block;
+	cursor: pointer;
+	/* I love vendor prefixes..... */
+	-moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+	padding: 10px;
+	padding-top: 8px; padding-bottom: 8px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	font-size: 1.1em;
+}
+#switcher span.on {
+	background-color: #bfb;
+	bcolor: #fff;
+	border: 1px solid #ada;
+}
+#switcher span:nth-child(2) {
+	margin-left: 2px;
+}
+#switcher span:nth-child(2) {
+	margin-left: 2px;
+}
+#interpreter, #generator {
+	max-width: 600px;
+	margin: auto;
+}
+select, button {
+	background: linear-gradient(#fff, #ddd);
+	border-radius: 4px;
+	border: 1px solid darkgrey;
+	padding: 3px 3px 3px 3px;
+	box-sizing: border-box;
+}
+button {
+	padding: 3px 4px 3px 4px;
+}
+textarea, input:not([type=checkbox]) {
+	border-radius: 4px;
+	border: 1px solid darkgrey;
+	padding: 3px;
+	background-color: white;
+	color: black;
+}
+textarea {
+	width: 100%;
+	box-sizing: border-box;
+	height: 120px;
+	background: white;
+	color: black;
+	display: block;
+}
+#interpreter-sample-select, #interpreter-sample-load  {
+	height: 26px;
+}
+#interpreter-sample-select {
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+#interpreter-sample-load {
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-left-width: 0px;
+}
+#load-program-file {
+	margin-right: 4px;
+}
+.field-title {
+	font-size: 1.15em;
+}
+#interpreter-status-bar, #generator-status-bar {
+	display: block;
+	width: 100%;
+	padding: 3px;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	box-sizing: border-box;
+	margin-top: 4px;
+}
+#interpreter-status-bar.error {
+	border-color: #daa;
+}
+#interpreter-status-bar.wait {
+	border-color: #aaf;
+}
+textarea[readonly] {
+	background-color: #fafafa;
+}
+#do-execute-interpreter {
+	display: block;
+	font-size: 1.15em;
+	width: 50%;
+	margin: auto;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.bluetip {
+	background-color: #e5eeff;
+	padding: 4px;
+	border: 1px solid #95aadd;
+	border-radius: 4px;
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+.generators-description {
+	margin-bottom: 5px;
+}
+.generators-description table {
+	margin-top: 5px;
+	margin-left: 20px;
+}
+.generators-description table tr td:first-child {
+	font-weight: bold;
+	width: 104px;
+}
+#do-generate, #stop-generate, #do-resume, #do-resume-from-file, #export-state {
+	display: inline-block;
+	font-size: 1.15em;
+    padding-left: 9px;
+    padding-right: 9px;
+    margin-left: 1px;
+    margin-right: 1px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+.generator-buttons {
+	width: 100%;
+	text-align: center;
+}
+#generator-status-bar {
+	position: relative;
+	padding: 3px;
+	margin-top: 5px;
+}
+#generator-status-bar span {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+#generator-status-message {
+	padding: 3px;
+
+}
+#generator-status-progress {
+	width: 0;
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background-color: rgb(215, 255, 215);
+}
+#stop-generate, #do-resume, #export-state {
+	display: none;
+}
+.gen-result-length {
+	margin-top: 4px;
+	display: none;
+}
+.gen-result-length span {
+	font-weight: bold;
+}
+.gen-result-length.on {
+	display: block;
+}

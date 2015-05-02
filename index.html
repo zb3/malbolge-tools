@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Malbolge Tools</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+	<h1>Malbolge Tools</h1>
+	<div id="switcher"><span id="switch-interpreter">Interpreter</span><span id="switch-generator" class="on">Generator</span></div>
+	<br>
+	<div id="interpreter" style="display: none">
+		<button id="load-program-file">Load program from file</button> <span id="interpreter-samples" style="display: none;">Choose example: <select id="interpreter-sample-select"></select><button id="interpreter-sample-load">Load</button></span>
+		<br>
+		<br>
+		<span class="field-title">Program code:</span>
+		<label>
+			<input id="normalize-code" type="checkbox">Normalized</label>
+		<br>
+		<textarea spellcheck="false" id="code-area"></textarea>
+		<button id="do-execute-interpreter">Execute</button>
+		<textarea spellcheck="false" id="exec-area" readonly=true></textarea>
+		<span id="interpreter-status-bar">&nbsp;</span>
+	</div>
+	<div id="generator">
+		Generator type:
+		<select id="generator-type-select">
+			<option>Linear generator (fastest)</option>
+			<option>Branch-on-read generator</option>
+			<option>Fixed length BOR generator (shortest)</option>
+		</select>
+		<datalist id="generator-descriptions">
+			<option value="Linear generator works by generating text char by char, in a way such that chars to not depend on memory after them. This way, we can generate long text quickly, so this generator is suitable for long text."></option>
+			<option value="Branch-on-read generator creates branches everytime a new memory location is read, which gives us all possible programs that do NOT make use of the memory located after the program. Therefore, this generator can generate smarter code in longer time, but it doesn't give the shortest possible solution. Generation time grows exponentially here."></option>
+			<option value="Fixed generator generates a program with a fixed length. The advantage over BOR generator is that here we can make use of the memory cells filled after the program, which can lead to shorter code. This guarantees that a solution will be found if it exists, but this can be very slow, so this generator is unsuitable for longer text."></option>
+		</datalist>
+		<div class="bluetip" id="generator-description">This generator sucks anyway</div>
+
+		<div id="linear-generator-settings">
+			Program prefix:
+			<select id="linear-prefix-select">
+				<option value="">Optimal</option>
+				<option value="('">('</option>
+				<option value="(=<">(=&lt;</option>
+				<option>Custom</select>
+			<br>
+			<div id="linear-custom-prefix" style="display: none;">
+				Custom prefix:
+				<input type="text" id="linear-custom-prefix-input" value="jpp"> (use space as wildcard)
+				<br>
+				<label>
+					<input type="checkbox" id="linear-prefix-normalized" checked>Show normalized prefix
+				</label>
+			</div>
+		</div>
+		<div id="exp-generator-settings" style="display: none;">
+			Max branches between progress:
+			<br>
+			<input type="number" id="exp-depth" value="10" min="3" step="1">
+			<br>
+			<br> Max program length:
+			<br>
+			<input type="number" id="exp-length" min="1" step="1" value="250">
+			<br>
+		</div>
+
+		<div id="fixed-generator-settings" style="display: none;">
+			Program length:
+			<br>
+			<input type="number" id="fixed-length" type="number" min="1" step="1" value="21">
+			<br>
+			<br> Max branches between progress:
+			<br>
+			<input type="number" id="fixed-depth" value="10" min="3" step="1">
+			<br>
+			<br> Max referenced memory location:
+			<br>
+			<input type="number" id="fixed-cutoff" min="1" step="1" value="1333">
+			<br>
+		</div>
+		<br>
+		<label>
+			<input type="checkbox" id="randomize-generator" checked>Randomize non-accessed parts</label>
+		<br>
+		<div id="generator-pool-settings" style="display: none;">
+			<div class="bluetip">
+				Enter normalized malbolge instructions to be used for non-accessed parts (space for random char), the rest will stay randomized:
+			</div>
+			<textarea id="generator-random-pool">
+			</textarea>
+		</div>
+		<br>
+		<span class="field-title">Desired output:</span>
+		<div class="bluetip generators-description">
+			You can use these special characters:
+			<br>
+			<table>
+				<tr>
+					<td>\p [char]</td>
+					<td>Display prompt, assume user inputs char</td>
+				</tr>
+				<tr>
+					<td>\x</td>
+					<td>Erase user input</td>
+				</tr>
+				<tr>
+					<td>\s</td>
+					<td>Don't erase user input till next output</td>
+				</tr>
+				<tr>
+					<td>\\</td>
+					<td>Display \</td>
+				</tr>
+			</table>
+		</div>
+		<textarea spellcheck="false" id="target-area">My first program in Malbolge!</textarea>
+		<div class="generator-buttons">
+			<button id="do-generate">Generate</button>
+			<button id="stop-generate">Stop</button>
+			<button id="do-resume">Resume</button>
+			<button id="do-resume-from-file">Resume from file</button>
+			<button id="export-state">Export state to file</button>
+		</div>
+		<textarea spellcheck="false" id="gen-result-area" readonly=true></textarea>
+		<span class="gen-result-length">
+			Length: <span id="gen-result-length"></span>
+		</span>
+		<span id="generator-status-bar">&nbsp;<span id="generator-status-progress"></span><span id="generator-status-message"></span></span>
+	</div>
+	<script src="js/vm.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/interpreter.js"></script>
+	<script src="js/generator.js"></script>
+</body>
+
+</html>
