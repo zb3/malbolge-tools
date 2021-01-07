@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "browserify": "latest",
-    "fs-extra": "0.18.0"
+    "fs-extra": "^9.0.1"
   },
   "scripts": {
     "build": "node build"
