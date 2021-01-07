@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"malbolge-vm":[function(require,module,exports){
+require=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"malbolge-vm":[function(require,module,exports){
 var xlat1 = '+b(29e*j1VMEKLyC})8&m#~W>qxdRp0wkrUo[D7,XTcA"lI.v%{gJh4G\\-=O@5`_3i<?Z\';FNQuY]szf$!BS/|t:Pn6^Ha';
 var xlat2 = '5z]&gqtyfr$(we4{WP)H-Zn,[%\\3dL+Q;>U!pJS72FhOA1CB6v^=I_0/8|jsb9m<.TVac`uY*MK\'X~xDl}REokN:#?G"i@';
 var legal = 'ji*p</vo';
@@ -73,7 +73,9 @@ function step(vm, input) {
   var vd = vm.d;
   var vmd = vm.mem[vm.d];
 
-  switch (xlat1[(vm.mem[vc] - 33 + vc) % 94]) {
+  var opcode = xlat1[(vm.mem[vc] - 33 + vc) % 94];
+
+  switch (opcode) {
     case 'j':
       vm.d = vmd;
       break;
@@ -105,7 +107,7 @@ function step(vm, input) {
     vm.c = vc;
     vm.d = vd;
     vm.mem[vd] = vmd;
-    throw 'Illegal jump!';
+    throw 'Illegal ' + (opcode === 'i' ? 'jump' : 'write') + '!';
   }
 
   vm.mem[vm.c] = xlat2.charCodeAt(vm.mem[vm.c] - 33);
